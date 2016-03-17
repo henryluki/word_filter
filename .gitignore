@@ -1,2 +1,3 @@
 .DS_Store
-/word_filter
+bin/
+log/
