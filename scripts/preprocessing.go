@@ -13,7 +13,7 @@ type Text struct {
 	Text string `json:"text"`
 }
 
-func WriteCsvFromDest(src string, dest string) {
+func WriteCsvFromDest(src string, dest string, tag string) {
 	fi, err := os.Open(src)
 	if err != nil {
 		fmt.Printf("Error: %s\n", err)
@@ -38,8 +38,12 @@ func WriteCsvFromDest(src string, dest string) {
 		}
 		text := Text{}
 		json.Unmarshal(a, &text)
-		s := []string{text.Text}
-
+		var s []string
+		if tag != "" {
+			s = []string{tag, text.Text}
+		} else {
+			s = []string{text.Text}
+		}
 		w.Write(s)
 		if err := w.Error(); err != nil {
 			fmt.Printf("error writing csv:", err)
@@ -49,7 +53,7 @@ func WriteCsvFromDest(src string, dest string) {
 	w.Flush()
 }
 
-func WriteCsvFromSplit(src1 string, src2 string, dest string, tag string) {
+func WriteCsvFromSplit(src1 string, src2 string, dest string) {
 	temp := [][]string{{}}
 
 	f1, err := os.Open(src1)
@@ -80,12 +84,7 @@ func WriteCsvFromSplit(src1 string, src2 string, dest string, tag string) {
 		if c == io.EOF {
 			break
 		}
-		var s []string
-		if tag != "" {
-			s = []string{tag, string(a)}
-		} else {
-			s = []string{string(a)}
-		}
+		s := []string{string(a)}
 		temp = append(temp, s)
 	}
 
@@ -94,12 +93,7 @@ func WriteCsvFromSplit(src1 string, src2 string, dest string, tag string) {
 		if c == io.EOF {
 			break
 		}
-		var s []string
-		if tag != "" {
-			s = []string{tag, string(a)}
-		} else {
-			s = []string{string(a)}
-		}
+		s := []string{string(a)}
 		temp = append(temp, s)
 	}
 
@@ -113,19 +107,14 @@ func WriteCsvFromSplit(src1 string, src2 string, dest string, tag string) {
 }
 
 func RawFileSplit() {
-	WriteCsvFromDest("../data/raw/sensitive_posts.csv", "../data/split/sensitive_posts_split.csv")
-	WriteCsvFromDest("../data/raw/sensitive_comments.csv", "../data/split/sensitive_comments_split.csv")
-	WriteCsvFromDest("../data/raw/approved_posts.csv", "../data/split/approved_posts_split.csv")
-	WriteCsvFromDest("../data/raw/approved_comments.csv", "../data/split/approved_comments_split.csv")
-	WriteCsvFromDest("../data/raw/deleted_posts.csv", "../data/split/deleted_posts_split.csv")
-	WriteCsvFromDest("../data/raw/deleted_comments.csv", "../data/split/deleted_comments_split.csv")
+	WriteCsvFromDest("../data/raw/sensitive.csv", "../data/split/sensitive_split.csv", "")
+	WriteCsvFromDest("../data/raw/sensitive_approved.csv", "../data/split/sensitive_approved_split.csv", "1")
+	WriteCsvFromDest("../data/raw/sensitive_deleted.csv", "../data/split/sensitive_deleted_split.csv", "0")
 }
 
 func WriteCsvForPreprocessing() {
 	RawFileSplit()
-	WriteCsvFromSplit("../data/split/approved_posts_split.csv", "../data/split/approved_comments_split.csv", "../data/split/sensitive_approved.csv", "1")
-	WriteCsvFromSplit("../data/split/deleted_posts_split.csv", "../data/split/deleted_comments_split.csv", "../data/split/sensitive_deleted.csv", "0")
-	WriteCsvFromSplit("../data/split/sensitive_approved.csv", "../data/split/sensitive_deleted.csv", "../data/pre/training.csv", "")
+	WriteCsvFromSplit("../data/split/sensitive_approved_split.csv", "../data/split/sensitive_deleted_split.csv", "../data/pre/training.csv")
 }
 
 func main() {
