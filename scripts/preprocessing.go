@@ -114,7 +114,7 @@ func RawFileSplit() {
 
 func WriteCsvForPreprocessing() {
 	RawFileSplit()
-	WriteCsvFromSplit("../data/split/sensitive_approved_split.csv", "../data/split/sensitive_deleted_split.csv", "../data/pre/training.csv")
+	WriteCsvFromSplit("../data/split/sensitive_approved_split.csv", "../data/split/sensitive_deleted_split.csv", "../data/pre/sensitive.csv")
 }
 
 func main() {

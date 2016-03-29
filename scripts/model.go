@@ -17,9 +17,9 @@ func main() {
 	// cls := linear_models.NewLogisticRegression("l1", 0.50, 100)
 
 	//Do a training-test split
-	trainData, testData := base.InstancesTrainTestSplit(rawData, 0.50)
-	fmt.Println(trainData)
-	fmt.Println(testData)
+	// trainData, testData := base.InstancesTrainTestSplit(rawData, 0.20)
+	// fmt.Println(trainData)
+	// fmt.Println(testData)
 	// cls.Fit(trainData)
 
 	// Calculates the Euclidean distance and returns the most popular label
