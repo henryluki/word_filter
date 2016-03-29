@@ -12,13 +12,13 @@ var segmenter sego.Segmenter
 func InitLoader() {
 	LoadDict()
 	go func() {
-		RunWatcher("data/dict.txt")
+		RunWatcher("data/sensitive.txt")
 	}()
 }
 
 // load dict
 func LoadDict() {
-	dict := "data/dict.txt"
+	dict := "data/sensitive.txt"
 	segmenter.LoadDictionary(dict)
 }
 
