@@ -22,9 +22,13 @@ var TermsSum TermsCount
 
 const (
 	Weight = 2.0 // α
+	// for KNN
+	Threshold = 0.7 // ε
+	K         = 15  // k
 )
 
 type Term struct {
+	Label int32
 	A     float64 // contains `x` c1 sum num
 	B     float64 // contains `x` c0 sum num
 	C     float64 // c1 not contains `x` sum num
@@ -37,6 +41,7 @@ type Term struct {
 
 type Pair struct {
 	Key   string
+	Label int32
 	CHI   float64
 	TFIDF float64
 }
@@ -63,7 +68,9 @@ func main() {
 	loadDict()
 	loadData()
 	pl := caculateEigenvalue()
-	exportCsv(pl)
+	exportCsv(pl, "../data/pre/knn_training.csv", "KNN")
+	exportCsv(pl, "../data/pre/knn_feature.csv", "feature")
+	exportCsv(pl, "../data/pre/svm_training.csv", "SVM")
 	fmt.Println("done!")
 }
 
@@ -110,10 +117,12 @@ func setOrUpdateTerms(c string, text string) {
 	switch c {
 	case "1":
 		term.Nx += 1
+		term.Label = 1
 		TermsSum.X += 1
 		break
 	case "0":
 		term.Ny += 1
+		term.Label = 0
 		TermsSum.Y += 1
 		break
 	}
@@ -135,9 +144,8 @@ func chineseSegment(c string, s string) {
 				setOrUpdateTerms(c, text)
 			}
 		}
-		//
+		// update corpus count
 		updateCorpusCount(c, perLineTexts)
-
 	}
 }
 
@@ -172,24 +180,36 @@ func caculateEigenvalue() PairList {
 	pl := make(PairList, len(Terms))
 	i := 0
 	for key, term := range Terms {
-		pl[i] = Pair{key, term.CHI, term.TFIDF}
+		pl[i] = Pair{key, term.Label, term.CHI, term.TFIDF}
 		i++
 	}
 	sort.Sort(sort.Reverse(pl))
 	return pl
 }
 
-func exportCsv(pl PairList) {
-	des, err := os.Create("../data/pre/training.csv")
+func exportCsv(pl PairList, dest string, class string) {
+	des, err := os.Create(dest)
 	if err != nil {
 		fmt.Printf("Error: %s\n", err)
 		return
 	}
 	defer des.Close()
 	w := csv.NewWriter(des)
-	for _, p := range pl {
+	for index, p := range pl {
 		var s []string
-		s = []string{p.Key, fmt.Sprintf("%.6f", p.CHI), fmt.Sprintf("%.6f", p.TFIDF)}
+		switch class {
+		case "KNN":
+			if p.CHI > Threshold {
+				s = []string{fmt.Sprintf("%d", p.Label), fmt.Sprintf("%.6f", p.CHI), fmt.Sprintf("%.6f", p.TFIDF)}
+			}
+			break
+		case "SVM":
+			s = []string{fmt.Sprintf("%d", p.Label), fmt.Sprintf("%d:%.6f", index+1, p.TFIDF)}
+			break
+		case "feature":
+			s = []string{fmt.Sprintf("%d", index+1), p.Key}
+			break
+		}
 		w.Write(s)
 		if err := w.Error(); err != nil {
 			fmt.Printf("error writing csv:", err)

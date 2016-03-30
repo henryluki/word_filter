@@ -4,25 +4,23 @@ import (
 	"fmt"
 	"github.com/sjwhitworth/golearn/base"
 	"github.com/sjwhitworth/golearn/evaluation"
-	"github.com/sjwhitworth/golearn/linear_models"
+	"github.com/sjwhitworth/golearn/knn"
 )
 
 func main() {
-	rawData, err := base.ParseCSVToInstances("../data/pre/training.csv", true)
+	rawData, err := base.ParseCSVToInstances("../data/pre/iris_headers.csv", true)
 	if err != nil {
 		panic(err)
 	}
 
-	fmt.Println(rawData)
-	cls := linear_models.NewLogisticRegression("l2", 0.50, 100.0)
+	//Initialises a new KNN classifier
+	cls := knn.NewKnnClassifier("euclidean", 2)
 
 	//Do a training-test split
-	trainData, testData := base.InstancesTrainTestSplit(rawData, 0.20)
-	// fmt.Println(trainData)
-	// fmt.Println(testData)
+	trainData, testData := base.InstancesTrainTestSplit(rawData, 0.50)
 	cls.Fit(trainData)
 
-	// Calculates the Euclidean distance and returns the most popular label
+	//Calculates the Euclidean distance and returns the most popular label
 	predictions := cls.Predict(testData)
 	fmt.Println(predictions)
 
