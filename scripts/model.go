@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 	"github.com/sjwhitworth/golearn/base"
-	// "github.com/sjwhitworth/golearn/evaluation"
-	// "github.com/sjwhitworth/golearn/linear_models"
+	"github.com/sjwhitworth/golearn/evaluation"
+	"github.com/sjwhitworth/golearn/linear_models"
 )
 
 func main() {
@@ -14,22 +14,22 @@ func main() {
 	}
 
 	fmt.Println(rawData)
-	// cls := linear_models.NewLogisticRegression("l1", 0.50, 100)
+	cls := linear_models.NewLogisticRegression("l2", 0.50, 100.0)
 
 	//Do a training-test split
-	// trainData, testData := base.InstancesTrainTestSplit(rawData, 0.20)
+	trainData, testData := base.InstancesTrainTestSplit(rawData, 0.20)
 	// fmt.Println(trainData)
 	// fmt.Println(testData)
-	// cls.Fit(trainData)
+	cls.Fit(trainData)
 
 	// Calculates the Euclidean distance and returns the most popular label
-	// predictions := cls.Predict(testData)
-	// fmt.Println(predictions)
+	predictions := cls.Predict(testData)
+	fmt.Println(predictions)
 
 	// Prints precision/recall metrics
-	// confusionMat, err := evaluation.GetConfusionMatrix(testData, predictions)
-	// if err != nil {
-	// panic(fmt.Sprintf("Unable to get confusion matrix: %s", err.Error()))
-	// }
-	// fmt.Println(evaluation.GetSummary(confusionMat))
+	confusionMat, err := evaluation.GetConfusionMatrix(testData, predictions)
+	if err != nil {
+		panic(fmt.Sprintf("Unable to get confusion matrix: %s", err.Error()))
+	}
+	fmt.Println(evaluation.GetSummary(confusionMat))
 }
