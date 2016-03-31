@@ -107,7 +107,7 @@ func WriteCsvFromSplit(src1 string, src2 string, dest string) {
 }
 
 func RawFileSplit() {
-	WriteCsvFromDest("../data/raw/sensitive.csv", "../data/split/sensitive_split.csv", "")
+	// WriteCsvFromDest("../data/raw/sensitive.csv", "../data/split/sensitive_split.csv", "")
 	WriteCsvFromDest("../data/raw/sensitive_approved.csv", "../data/split/sensitive_approved_split.csv", "1")
 	WriteCsvFromDest("../data/raw/sensitive_deleted.csv", "../data/split/sensitive_deleted_split.csv", "0")
 }

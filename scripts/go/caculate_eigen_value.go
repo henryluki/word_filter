@@ -16,6 +16,7 @@ var Segmenter sego.Segmenter
 var StopWords map[string]bool
 var CorpusSum CorpusCount
 var Terms map[string]Term
+var TermsList []string
 var CorpusX map[string]float64
 var CorpusY map[string]float64
 var TermsSum TermsCount
@@ -40,7 +41,7 @@ type Term struct {
 }
 
 type Pair struct {
-	Key   string
+	Index int32
 	Label int32
 	CHI   float64
 	TFIDF float64
@@ -56,7 +57,7 @@ type TermsCount struct {
 	Y float64 // c0 sum term
 }
 
-type PairList []Pair
+type PairList map[string]Pair
 
 func (p PairList) Len() int           { return len(p) }
 func (p PairList) Less(i, j int) bool { return p[i].CHI < p[j].CHI }
@@ -68,9 +69,9 @@ func main() {
 	loadDict()
 	loadData()
 	pl := caculateEigenvalue()
-	exportCsv(pl, "../data/pre/knn_training.csv", "KNN")
-	exportCsv(pl, "../data/pre/knn_feature.csv", "feature")
-	exportCsv(pl, "../data/pre/svm_training.csv", "SVM")
+	// exportCsv(pl, "../data/pre/knn_training.csv", "KNN")
+	exportCsv(pl, "../data/pre/svm_feature.csv", "feature")
+	exportSVMCsv(pl, "../data/pre/svm_training.csv")
 	fmt.Println("done!")
 }
 
@@ -138,6 +139,7 @@ func chineseSegment(c string, s string) {
 			token := seg.Token()
 			var text = token.Text()
 			if !isStopWord(text) && len(strings.TrimSpace(text)) != 0 {
+				TermsList = append(TermsList, text) // put in termslist
 				if !perLineTexts[text] {
 					perLineTexts[text] = true
 				}
@@ -180,11 +182,30 @@ func caculateEigenvalue() PairList {
 	pl := make(PairList, len(Terms))
 	i := 0
 	for key, term := range Terms {
-		pl[i] = Pair{key, term.Label, term.CHI, term.TFIDF}
 		i++
+		pl[key] = Pair{int32(i), term.Label, term.CHI, term.TFIDF}
 	}
 	sort.Sort(sort.Reverse(pl))
 	return pl
+}
+
+func exportSVMCsv(pl PairList, dest string) {
+	des, err := os.Create(dest)
+	if err != nil {
+		fmt.Printf("Error: %s\n", err)
+		return
+	}
+	defer des.Close()
+	w := csv.NewWriter(des)
+	for _, t := range TermsList {
+		var s []string
+		s = string{fmt.Sprintf("%d", p.Label), fmt.Sprintf("%d:%.6f", p.Index, p.TFIDF)}
+		w.Write(s)
+		if err := w.Error(); err != nil {
+			fmt.Printf("error writing csv:", err)
+		}
+	}
+	w.Flush()
 }
 
 func exportCsv(pl PairList, dest string, class string) {
@@ -195,7 +216,7 @@ func exportCsv(pl PairList, dest string, class string) {
 	}
 	defer des.Close()
 	w := csv.NewWriter(des)
-	for index, p := range pl {
+	for key, p := range pl {
 		var s []string
 		switch class {
 		case "KNN":
