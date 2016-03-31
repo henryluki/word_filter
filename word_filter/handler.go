@@ -18,10 +18,16 @@ func VerifyWordsHandler(w http.ResponseWriter, req *http.Request) {
 			review_level = 0
 		} else {
 			hit = true
-			review_level = level
+			// if level equals to 2, need to predict label
+			if level == 2 {
+				PredictText(text)
+				review_level = level
+			} else {
+				review_level = level
+			}
 		}
 		log.Println("[INFO] text:", text, "hit:", hit, "level:", level)
-		res := Response{Hit: hit, Level: review_level}
-		w.Write(ToJson(res))
+		res := HitResponse{Hit: hit, Level: review_level}
+		w.Write(RenderJson(res))
 	}
 }
