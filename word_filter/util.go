@@ -11,7 +11,7 @@ type HitResponse struct {
 }
 
 type PredictResponse struct {
-	Label string `json:"label"`
+	Label int32  `json:"label"`
 	Text  string `json:"text"`
 }
 
@@ -25,6 +25,6 @@ func RenderJson(res HitResponse) []byte {
 
 func DecodeJson(res []byte) PredictResponse {
 	var s PredictResponse
-	json.Unmarshal(res, &res)
+	json.Unmarshal(res, &s)
 	return s
 }

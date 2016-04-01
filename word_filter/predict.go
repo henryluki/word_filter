@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -11,7 +12,7 @@ const (
 	PREDICT_HOST = "http://127.0.0.1:8006/classify"
 )
 
-func PredictText(text string) string {
+func PredictText(text string) int32 {
 	resp, err := http.PostForm(PREDICT_HOST,
 		url.Values{"text": {text}})
 	if err != nil {
@@ -25,7 +26,6 @@ func PredictText(text string) string {
 		log.Println("[ERROR]: response from Predict Host error!")
 	}
 	d := DecodeJson(body)
-	log.Println("[INFO] label:" + d.Label + "text:" + d.Text)
-	log.Println(d)
+	log.Println("[PREDICT-INFO] text: " + d.Text + " label: " + fmt.Sprintf("%d", d.Label))
 	return d.Label
 }
