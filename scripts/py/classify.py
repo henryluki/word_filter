@@ -59,7 +59,7 @@ def main():
   DATA_DIR = '../../data/pre/'
   grocery.train_and_save(DATA_DIR + 'train.csv')
   grocery.test(DATA_DIR + "test.csv")
-  print grocery.predict("好骚")
+  print grocery.predict("你好")
 
 if __name__ == '__main__':
   main()
