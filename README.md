@@ -1,9 +1,10 @@
 ### Word Filter
 - Build executable: `go build`
 - Run: `./word_filter `
-- Run background: `./start.sh`
+- Run background: `./run.sh start`
+- Usage: `./run.sh`
 
 #### To Do
-- [ ] Auto review api
-- [ ] Use Machine Learning algorithms
-- [ ] Data set & training set
+- [x] Auto review api
+- [x] Use Machine Learning algorithms
+- [x] Data set & training set
