@@ -18,7 +18,7 @@ type PredictResponse struct {
 func RenderJson(res HitResponse) []byte {
 	jsonData, err := json.Marshal(res)
 	if err != nil {
-		log.Println("Json decode error.")
+		log.Printf("Json decode error.")
 	}
 	return jsonData
 }

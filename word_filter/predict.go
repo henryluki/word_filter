@@ -17,15 +17,15 @@ func PredictText(text string) int32 {
 		url.Values{"text": {text}})
 	if err != nil {
 		// handle error
-		log.Println("[ERROR]: request for Predict Host error!")
+		log.Printf("[ERROR]: request for Predict Host error!")
 	}
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		// handle error
-		log.Println("[ERROR]: response from Predict Host error!")
+		log.Printf("[ERROR]: response from Predict Host error!")
 	}
 	d := DecodeJson(body)
-	log.Println("[PREDICT-INFO] text: " + d.Text + " label: " + fmt.Sprintf("%d", d.Label))
+	log.Printf("[PREDICT-INFO] text: " + d.Text + " label: " + fmt.Sprintf("%d", d.Label))
 	return d.Label
 }

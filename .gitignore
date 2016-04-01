@@ -2,5 +2,5 @@
 bin/
 log/
 data/
+*.pyc
 scripts/py/SVM/
-scripts/py/*.pyc

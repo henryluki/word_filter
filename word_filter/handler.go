@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 )
@@ -30,7 +31,7 @@ func VerifyWordsHandler(w http.ResponseWriter, req *http.Request) {
 				review_level = level
 			}
 		}
-		log.Println("[INFO] text:", text, "hit:", hit, "level:", level)
+		log.Printf("[INFO] text: " + text + " hit: " + fmt.Sprintf("%t", hit) + " review_level: " + fmt.Sprintf("%d", review_level))
 		res := HitResponse{Hit: hit, Level: review_level}
 		w.Write(RenderJson(res))
 	}
