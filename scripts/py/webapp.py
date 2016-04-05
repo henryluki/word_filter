@@ -1,5 +1,5 @@
 # coding: utf-8
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from classify import MyGrocery
 import logging, sys
 
@@ -11,13 +11,19 @@ app.logger.setLevel(logging.DEBUG)
 grocery = MyGrocery("SVM")
 grocery.predict("你好")
 
+def request_params(request):
+  if len(request.form) != 0:
+    return request.form
+  if len(request.json) != 0:
+    return request.json
+
 @app.route('/')
 def index():
-  return 'hello world'
+  return render_template('index.html')
 
 @app.route('/classify', methods=['POST'])
 def classify():
-  text = request.form['text']
+  text = request_params(request)['text'].strip(' ')
   label = grocery.predict(text)
   app.logger.info("[INFO] label: "+ label + " text: " + text)
   return jsonify({ "label": label, "text": text})

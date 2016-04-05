@@ -1,0 +1,28 @@
+body {
+  font-size: 16px;
+  font-family: sans-serif;
+}
+
+.container {
+  min-width: 768px;
+  margin: 10px auto;
+}
+.content {
+  margin: 20px auto;
+  padding: 10px;
+  width: 400px;
+}
+.text {
+  width: 200px;
+  height: 24px;
+  border-radius: 8px;
+  border: solid #ddd 1px;
+  padding: 2px;
+}
+.button {
+  height: 28px;
+  width: 60px;
+  border-radius: 6px;
+  border: solid #ddd 1px;
+  background-color: #ddd;
+}
