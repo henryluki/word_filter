@@ -1,10 +1,10 @@
 ### Word Filter
-Word Filter: A tool which uses keywords matching and Machine Learning for text filtering
+Word Filter: A tool which uses Keywords Matching and Machine Learning for text filtering
 
 #### Feature
 - HTTP API
 - Keywords Matching
-- Model to predict
+- Trained model
 
 #### Usage
 - Build executable: `go build`
@@ -15,4 +15,5 @@ Word Filter: A tool which uses keywords matching and Machine Learning for text f
 #### To Do
 - [x] Auto review api
 - [x] Use Machine Learning algorithms
-- [x] Data set & training set
+- [x] Train set & Test set
+- [x] Trained model for predict
