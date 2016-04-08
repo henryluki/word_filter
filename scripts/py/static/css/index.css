@@ -41,3 +41,6 @@ p {
 .sample-label{
   color: #E91E63;
 }
+.uploaded {
+  float: right;
+}

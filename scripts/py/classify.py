@@ -8,7 +8,7 @@ Time:   2016-03-31
 """
 
 from tgrocery import Grocery
-import csv
+import csv, json
 
 class MyGrocery(object):
   def __init__(self, name):
@@ -53,6 +53,8 @@ class MyGrocery(object):
     correct = (total - wrong_num ) / total
     self.correct = correct
     print "total: %d , wrong_num: %d, success percentage: %f" %(total, wrong_num, correct)
+    result = dict(type="test", total=total, wrong_num=wrong_num, correct=correct)
+    return json.dumps(result)
 
 def main():
   grocery = MyGrocery("SVM")
