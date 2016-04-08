@@ -25,9 +25,9 @@ $(document).ready(function() {
         text: text
       };
       postData(data, function(data){
-        var p = document.createElement('p');
-        p.textContent = "文本：" + data.text + " 类型：" + data.label;
-        predictArea.append(p)
+        var polyfill = []
+        polyfill.push("<p>文本：<span class='sample-text'>", data.text, "</span> 类型: <span class='sample-label'>", data.label, "</span></p>")
+        predictArea.append(polyfill.join(""))
       });
 
     }else{

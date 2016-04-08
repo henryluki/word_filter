@@ -1,28 +1,43 @@
 body {
   font-size: 16px;
-  font-family: sans-serif;
+  font-family: Menlo,Courier,'Hiragino Sans GB',STHeiti,'Microsoft YaHei','Wenquanyi Micro Hei','WenQuanYi Micro Hei Mono','WenQuan Yi Zen Hei','WenQuanYi Zen Hei Mono',LiGothicMed,'Han Heiti GB',monospace,monospace,sans-serif;
+  background-color: #F5F1F1;
+  color: #3e3e3e;
 }
 
 .container {
   min-width: 768px;
-  margin: 10px auto;
+  margin: 0 auto;
 }
 .content {
-  margin: 20px auto;
-  padding: 10px;
+  margin: 0 auto;
+  padding: 10px 10px 0 10px;
   width: 400px;
+  min-height: 800px;
+  background-color: #ffffff;
 }
 .text {
-  width: 200px;
-  height: 24px;
+  width: 300px;
+  height: 26px;
   border-radius: 8px;
-  border: solid #ddd 1px;
+  border: solid #4CAF50 1px;
   padding: 2px;
 }
 .button {
-  height: 28px;
-  width: 60px;
+  height: 30px;
+  width: 80px;
   border-radius: 6px;
-  border: solid #ddd 1px;
-  background-color: #ddd;
+  border: solid #00BCD4 1px;
+  color: #ffffff;
+  background-color: #00BCD4;
+}
+p {
+  line-height: 18px;
+  height: 10px;
+}
+.sample-text{
+  color: #00BCD4;
+}
+.sample-label{
+  color: #E91E63;
 }
