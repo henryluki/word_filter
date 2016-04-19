@@ -2,7 +2,7 @@
 from flask import Flask, request, jsonify, render_template
 from werkzeug import secure_filename
 from classify import MyGrocery
-import logging, sys, os, requests
+import logging, sys, os, requests, json
 
 app = Flask(__name__)
 # upload config
@@ -80,8 +80,10 @@ def classify():
   text = request_params(request)['text'].strip(' ')
   label = grocery.predict(text)
   res = requests.post(API_HOST, data=dict(v=text))
+  print res.content
   app.logger.info("[INFO] label: "+ label + " text: " + text)
-  return jsonify({ "label": label, "text": text, "data": res.content})
+  predict_result = json.dumps(dict(label=label, text=text), ensure_ascii=False, encoding='utf8')
+  return jsonify({ "predict_result": predict_result, "filter_result": res.content})
 
 @app.route('/predict', methods=['POST'])
 def predict():

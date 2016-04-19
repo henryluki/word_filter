@@ -56,8 +56,10 @@ $(document).ready(function() {
       };
       classifyTextRequest(data, function(data){
         var polyfill = [];
-        polyfill.push("<p>文本：<span class='sample-text'>", data.text, "</span> 类型: <span class='sample-label'>", data.label, "</span></p>")
-        polyfill.push("<p>结果：", data.data ,"</p>")
+        polyfill.push("<div class='sample'>")
+        polyfill.push("<p class='sample-filter'>过滤结果：", data.filter_result,"</p>");
+        polyfill.push("<p class='sample-predict'>预测结果：", data.predict_result,"</p>");
+        polyfill.push("</div>")
         predictArea.append(polyfill.join(""))
       });
 
@@ -87,7 +89,7 @@ $(document).ready(function() {
           typeMessage = type
           break;
       }
-      if (type=="sensitive") {
+      if (type == "sensitive") {
         alert("敏感词典上传成功！");
         window.setTimeout(function(){
           window.location.reload();

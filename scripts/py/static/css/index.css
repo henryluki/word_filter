@@ -40,10 +40,13 @@ p {
   line-height: 18px;
   height: 10px;
 }
-.sample-text{
+.sample{
+  border-bottom: 1px dashed #ddd;
+}
+.sample-predict{
   color: #00BCD4;
 }
-.sample-label{
+.sample-filter{
   color: #E91E63;
 }
 .uploaded {
