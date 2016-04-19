@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	PREDICT_HOST = "http://127.0.0.1:8006/classify"
+	PREDICT_HOST = "http://127.0.0.1:8006/predict"
 )
 
 func PredictText(text string) int32 {

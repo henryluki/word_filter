@@ -18,9 +18,9 @@ func VerifyWords(text string) int {
 		if max_freq == 1 {
 			level = 0
 		} else if max_freq == 2 {
-			level = 2 // need to be reviewed
+			level = 1 // need to be reviewed
 		} else if max_freq == 3 {
-			level = 1 // ban
+			level = 2 // ban
 		}
 	}
 

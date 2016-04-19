@@ -19,11 +19,11 @@ func VerifyWordsHandler(w http.ResponseWriter, req *http.Request) {
 			review_level = 0
 		} else {
 			hit = true
-			// if level equals to 2, need to predict text label
-			if level == 2 {
+			// if level equals to 1, need to predict text label
+			if level == 1 {
 				label := PredictText(text)
 				if label == 0 {
-					review_level = 3 // need ban
+					review_level = 2 // need ban
 				} else {
 					review_level = level
 				}
