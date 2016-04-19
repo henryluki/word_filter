@@ -26,6 +26,8 @@ $(document).ready(function() {
       success: function(res){
         if (res.status == "200") {
           success_cb(res)
+        }else{
+          alert("文件名或格式出错！");
         }
       },
       error: function() {
@@ -55,6 +57,7 @@ $(document).ready(function() {
       classifyTextRequest(data, function(data){
         var polyfill = [];
         polyfill.push("<p>文本：<span class='sample-text'>", data.text, "</span> 类型: <span class='sample-label'>", data.label, "</span></p>")
+        polyfill.push("<p>结果：", data.data ,"</p>")
         predictArea.append(polyfill.join(""))
       });
 
@@ -83,6 +86,13 @@ $(document).ready(function() {
         default:
           typeMessage = type
           break;
+      }
+      if (type=="sensitive") {
+        alert("敏感词典上传成功！");
+        window.setTimeout(function(){
+          window.location.reload();
+        },200)
+        return;
       }
       var polyfill = [];
       var a = "<a id='action' data=" + type + ":" + filename + " href='javascript:void(0)'>"+ typeMessage +"</a>"
