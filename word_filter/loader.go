@@ -41,11 +41,11 @@ func RunWatcher(path string) {
 			select {
 			case event := <-watcher.Events:
 				if event.Op&fsnotify.Write == fsnotify.Write {
-					log.Printf("file modified:", event.Name)
+					log.Printf("file modified:" + event.Name)
 					LoadDict()
 				}
 			case err := <-watcher.Errors:
-				log.Printf("error:", err)
+				log.Printf("error:" + err)
 			}
 		}
 	}()
