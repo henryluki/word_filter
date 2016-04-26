@@ -45,7 +45,7 @@ func RunWatcher(path string) {
 					LoadDict()
 				}
 			case err := <-watcher.Errors:
-				log.Printf("error:" + err)
+				log.Fatal(err)
 			}
 		}
 	}()
